@@ -1,0 +1,28 @@
+{
+  "name": "nodepnode",
+  "version": "0.0.0",
+  "description": "No dependency nodejs using streams",
+  "main": "src/server.mjs",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.mjs",
+    "start": "node src/server.mjs",
+    "test": "node test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sasidakh/nodepnode.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "sasidakh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sasidakh/nodepnode/issues"
+  },
+  "homepage": "https://github.com/sasidakh/nodepnode#readme",
+  "dependencies": {
+    "mongodb": "^3.6.5"
+  }
+}
