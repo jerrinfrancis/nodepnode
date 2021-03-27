@@ -5,7 +5,7 @@ export class StringToPerson extends Transform {
      fulldata = ''
     _flush(cb) {
         try {
-            cb(null, JSON.parse(this.fulldata))
+            cb(null, new Person(JSON.parse(this.fulldata)))
         } catch (err) {
             cb(err)
         }

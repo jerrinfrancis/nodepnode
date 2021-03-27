@@ -1,4 +1,4 @@
-import { WritePeople, ReadInsertResponse, WritePerson } from '../db/writeToCollection.mjs';
+import { WritePeople, ReadInsertResponse, WritePerson } from '../db/write.mjs';
 import { StringToPeople, StringToPerson } from './stringToPeople.mjs';
 
 const end = (response, err, status = 500) => {
