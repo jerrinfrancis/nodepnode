@@ -33,13 +33,10 @@ export class WritePeople extends Transform {
             .finally(() => this.session.endSession())
     }
     _transform(obj, encoding, cb) {
-        try {
-            this.collection.insertOne(obj, { session: this.session })
-                .then(({ insertedId }) => this.push({ insertedId }))
-            cb()
-        } catch (err) {
-            cb(err)
-        }
+        this.collection.insertOne(obj, { session: this.session })
+            .then(({ insertedId }) => this.push({ insertedId }))
+            .then(() => cb())
+            .catch(cb)
     }
     constructor({ name }){
         super({ readableObjectMode: true, writableObjectMode: true })
