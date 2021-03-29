@@ -33,13 +33,13 @@ export class WritePeople extends Transform {
             .finally(() => this.session.endSession())
     }
     _transform(obj, encoding, cb) {
-        this.collection.insertOne(obj, { session: this.session }).then(({
-            insertedCount,
-            insertedId,
-            result
-        }) => this.push({ insertedCount, insertedId, result }))
-            .then(() => cb())
-            .catch(cb)
+        try {
+            this.collection.insertOne(obj, { session: this.session })
+                .then(({ insertedId }) => this.push({ insertedId }))
+            cb()
+        } catch (err) {
+            cb(err)
+        }
     }
     constructor({ name }){
         super({ readableObjectMode: true, writableObjectMode: true })
@@ -58,6 +58,7 @@ export class ReadInsertResponse extends Transform {
         cb(null, JSON.stringify(this.fulldata))
     }
     _transform({ insertedId }, _encoding, cb) {
+        // console.log('insertedi', insertedId)
         this.fulldata.push(insertedId)
         cb()
     }

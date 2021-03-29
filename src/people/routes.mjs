@@ -1,9 +1,12 @@
+import http from 'http'
+
 import { WritePeople, ReadInsertResponse, WritePerson } from '../db/write.mjs';
-import { StringToPeople, StringToPerson } from './stringToPeople.mjs';
+import { CsvStringToPeople, StringToPerson } from './stringToPeople.mjs';
+import { MultipartToCsv } from '../csv/csv.mjs';
 
 const end = (response, err, status = 500) => {
     console.error(err);
-    response.writeHead(status)
+    response.writeHead(status, http.STATUS_CODES[500])
     response.end(err.message)
     return response;
 }
@@ -11,16 +14,16 @@ const end = (response, err, status = 500) => {
 export const addPeople = (request, response) => {
     request.on('error', (err) => end(response, err));
     response.on('error', (err) => end(response, err));
-    const people = new StringToPeople().on('error', (err) => write.destroy(err))
+    const csv = new MultipartToCsv().on('error',(err) => people.destroy(err))
+    const people = new CsvStringToPeople().on('error', (err) => write.destroy(err))
     const write = new WritePeople({ name: 'people' }).on('error', (err) => end(response, err))
     const readResp = new ReadInsertResponse().on('error', (err) => end(response, err))
     request
+        .pipe(csv)
         .pipe(people)
         .pipe(write)
         .pipe(readResp)
         .pipe(response)
-    
-    response.writeHead(200, {'content-type': 'application/json'});
 }
 
 export const addPerson = (request, response) => {
@@ -34,6 +37,4 @@ export const addPerson = (request, response) => {
         .pipe(write)
         .pipe(readResp)
         .pipe(response)
-    
-    response.writeHead(200, {'content-type': 'application/json'});
 }

@@ -9,14 +9,14 @@ export class Person {
         id, first_name, last_name, email, gender, ip_address
     }){
         if (
-            typeof id !== 'number'
+            (typeof id !== 'number' && typeof id !== 'string')
             || (typeof first_name != 'string' && first_name.length > 50)
             || (typeof first_name != 'string' && first_name.length > 50)
             || (typeof email != 'string' && email.length > 50)
         ) throw new Error('Not a good person.')
 
         Object.assign(this, {
-            id,
+            id: +id,
             firstName: first_name,
             lastName: last_name,
             email,

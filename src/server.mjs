@@ -16,11 +16,12 @@ const logger = (req) => {
 const server = http.createServer(logger);
 
 const routes = {
-    '/people': addPeople,
-    '/person': addPerson
+    '/addPeople': addPeople,
+    '/addPerson': addPerson
 }
 
 server.on('request', (request, response) => {
+    response.writeHead(200, {'content-type': 'application/json'});
     const route = routes[request.url];
     if (!route) return notFound(request, response)
     return route(request, response)
