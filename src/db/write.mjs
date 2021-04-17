@@ -47,17 +47,19 @@ export class WritePeople extends Transform {
 }
 
 export class ReadInsertResponse extends Transform {
-    fulldata = []
+    first = true;
     _destroy(err, cb) {
         cb(err)
     }
     _flush(cb) {
-        cb(null, JSON.stringify(this.fulldata))
+        cb(null, "]")
     }
     _transform({ insertedId }, _encoding, cb) {
-        // console.log('insertedi', insertedId)
-        this.fulldata.push(insertedId)
-        cb()
+        if (this.first) {
+            this.first = false;
+            return cb(null, `[${JSON.stringify(insertedId)}`)
+        }
+        cb(null, `,${JSON.stringify(insertedId)}`)
     }
     constructor() {
         super({ writableObjectMode: true })

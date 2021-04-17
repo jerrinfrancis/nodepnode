@@ -2,7 +2,7 @@ import mongodb from 'mongodb';
 
 const { MongoClient } = mongodb;
 
-const url = 'mongodb://localhost:30003';
+const url = 'mongodb://localhost:27017,localhost:27018,localhost:27019/stackfinance?replicaSet=mongodb-replicaset';
 
 // Database Name
 
